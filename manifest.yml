@@ -1,0 +1,33 @@
+# Generated manifest.yml based on template version 0.1.0
+# appName = capmtest
+# language=nodejs
+# multitenancy=
+---
+applications:
+# -----------------------------------------------------------------------------------
+# Backend Service
+# -----------------------------------------------------------------------------------
+- name: capmtest-srv
+  random-route: true  # for development only
+  path: gen/srv
+  memory: 256M
+  buildpack: nodejs_buildpack
+  services:
+  - capmtest-db
+  - riskmanagment-xsua
+  - riskmanagment-dest
+
+# -----------------------------------------------------------------------------------
+# HANA Database Content Deployer App
+# -----------------------------------------------------------------------------------
+- name: capmtest-db-deployer
+  path: gen/db
+  no-route: true
+  health-check-type: process
+  memory: 256M
+  instances: 1
+  buildpack: nodejs_buildpack
+  services:
+  - capmtest-db
+  - riskmanagment-xsua
+  - riskmanagment-dest
